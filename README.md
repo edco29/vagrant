@@ -15,6 +15,12 @@ git cd #file
 ```
 vagrant box add --insecure -c ubuntu/trusty64 https://app.vagrantup.com/ubuntu/boxes/trusty64
 ```
+- Up and connect to Virtual Machinne
+```
+vagrant up
+vagrant ssh node[0-N]
+```
+
 # Deploy with Shell Scripting
 It's launched from Windows Operating System
 # Configure Proxy
