@@ -1,13 +1,11 @@
 # Vagrant
 This repo contain a Vagranfile to start a ubuntu Operating System in mode-server.
 # Use ( example vagrant-box : ubuntu/trusty64 )
-- Download the repo 
-```
-git clone https://github.com/edco29/vagrant.git
-git cd #file
-```
-- Download Vagrant for your OS ( https://www.vagrantup.com/downloads.html )
-- Download the vagrant box of your choice -VirtualBoxsupport-(https://app.vagrantup.com/boxes/search)
+- Download VirtualBox for your OS (https://www.virtualbox.org/wiki/Downloads)
+- Download Vagrant for your OS (https://www.vagrantup.com/downloads.html )
+- Download the vagrant box of your choice -VirtualBox-(https://app.vagrantup.com/boxes/search)
+- If you have a Windows 7 , install powershell V3 (https://www.microsoft.com/en-us/download/details.aspx?id=34595)
+- Open cmd and write the below commands 
 ```
   vagrant box add ubuntu/trusty64
 ```
@@ -15,16 +13,28 @@ git cd #file
 ```
 vagrant box add --insecure -c ubuntu/trusty64 https://app.vagrantup.com/ubuntu/boxes/trusty64
 ```
-- Up and connect to Virtual Machinne
+- Download the repo in the /#path of your choise
+```
+cd /#path
+git clone https://github.com/edco29/vagrant.git
+git cd vagrant
+```
+# Note :Configure Proxy variables is you are behind Proxy
+- Pass arguments in vagrantfile
+```
+provision_nodes_proxy = "no"  #Define if provisioners should run behind proxy(yes | no)
+# < "yes" = You are behind proxy  , fill out proxy variables && "no" = no fill out proxy variables >
+#Proxy variables
+Username="xxx"
+Password="xxx"
+ProxyServer="xxxxx.com.pe"
+ProxyPort="8080"
+```
+- Locate in the vagrant file and  Up & connect to Virtual Machinne
 ```
 vagrant up
 vagrant ssh node[0-N]
 ```
-
-# Deploy with Shell Scripting
-It's launched from Windows Operating System
-# Configure Proxy
-- Pass arguments in vagrantfile
 # Programs Installed
 - Ansible
 - Git
@@ -32,7 +42,7 @@ It's launched from Windows Operating System
 - Python3(status:disable)
 - Docker
 - java
-# Support:MultiNode Implement
+# Support: MultiNode Implement
 - Add Nodes on demand.
 # Provider
 - VirtualBox
