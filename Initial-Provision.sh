@@ -13,7 +13,7 @@ if [ -f /etc/os-release ]; then
     echo "Version:$os_version_id"
 fi
 
-echo "[${DATE}] ----> Start to supply Virtual Machinne <----[${DATE}]"
+echo "[${DATE}] ----> Start to supply Virtual Machinne <----"
 
 if [ "$1" == "yes" ]
 then
