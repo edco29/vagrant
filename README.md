@@ -5,7 +5,7 @@ This repo contain a Vagranfile to start a ubuntu Operating System in mode-server
 - Download Vagrant for your OS (https://www.vagrantup.com/downloads.html )
 - Download the vagrant box of your choice -VirtualBox-(https://app.vagrantup.com/boxes/search)
 - If you have a Windows 7 , install powershell V3 (https://www.microsoft.com/en-us/download/details.aspx?id=34595)
-- Open cmd and write the below commands 
+- Open cmd and write the below command
 ```
   vagrant box add ubuntu/trusty64
 ```
@@ -13,7 +13,7 @@ This repo contain a Vagranfile to start a ubuntu Operating System in mode-server
 ```
 vagrant box add --insecure -c ubuntu/trusty64 https://app.vagrantup.com/ubuntu/boxes/trusty64
 ```
-- Download the repo in the /#path of your choise
+- Download the repo in the /#path of your choice
 ```
 cd /#path
 git clone https://github.com/edco29/vagrant.git
