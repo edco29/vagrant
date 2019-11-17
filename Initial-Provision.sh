@@ -15,7 +15,6 @@ if [ -f /etc/os-release ]; then
 fi
 
 echo "[${DATE}] ----> Start to supply Virtual Machinne <---- "
-echo " ----> You are running as [${WHOAMI}]   <----"
 if [ "$1" == "yes" ]
 then
 	#Config_proxy
@@ -70,4 +69,4 @@ docker pull alpine
 docker images
 #End-Test
 #
-echo " Finish to supply Virtual Machinne "
+echo " [${DATE}] ----> Finish to supply Virtual Machinne <---- "
