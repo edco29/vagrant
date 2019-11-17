@@ -84,6 +84,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     nid = (node_id - 1)
 
     config.vm.define "node#{nid}" do |node|
+      ###Configure Brigde instead NAT (use "VBoxManage list bridgedifs | grep ^Name" command)
+      node.vm.network "public_network", bridge: "en0 : Wi-Fi (Wireless)"
+
       if enable_custom_boxes == "yes"
         box_set = "no"  #Initially set to no so it can be set to true if found in custom box defined
         nodes.each do |cust_box|
@@ -136,6 +139,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         end
       end
       node.vm.hostname = "node#{nid}"
+
 
       ### Define additional network adapters below
       if additional_nics == "yes"

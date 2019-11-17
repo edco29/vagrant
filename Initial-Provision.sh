@@ -7,7 +7,7 @@ ProxyServer=$4
 ProxyPort=$5
 Date=`date +%d-%m-%Y-%H:%M:%S`
 
-
+#: <<'end_long_comment'
 if [ -f /etc/os-release ]; then
     os_name="$(awk -F= '/^NAME/{ print $2 }' /etc/os-release | sed 's/"//g')"
     os_version_id="$(awk -F= '/^VERSION_ID/{ print $2}' /etc/os-release | sed 's/"//g')"
@@ -71,4 +71,6 @@ fi
 docker pull alpine
 docker images
 #End-Test
+#end_long_comment
 echo " [${Date}] ----> Finish to supply Virtual Machinne <---- "
+
