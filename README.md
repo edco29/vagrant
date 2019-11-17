@@ -28,7 +28,7 @@ provision_nodes_proxy = "no"  #Define if provisioners should run behind proxy(ye
 Username="xxx"
 Password="xxx"
 ProxyServer="xxxxx.com.pe"
-ProxyPort="8080"
+ProxyPort="8081"
 ```
 - Locate in the vagrant file and  Up & connect to Virtual Machinne
 ```
