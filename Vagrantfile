@@ -21,14 +21,14 @@ nodes = [
   {
     :node => "node0",
     :box => "ubuntu/trusty64",
-    :cpu => 1,
+    :cpu => 2,
     :mem => 1024
   },
   {
     :node => "node1",
     :box => "ubuntu/trusty64",
-    :cpu => 1,
-    :mem => 512
+    :cpu => 2,
+    :mem => 1024
   }
 ]
 
@@ -46,7 +46,7 @@ custom_cpu_mem = "yes"  #Define if custom cpu and memory requirements are needed
 desktop = "no"  #Define if running desktop OS (yes | no) (NOTE: If put Yes download a box with Desktop support )
 enable_custom_boxes = "yes"  #Define if custom boxes should be used...defined in nodes var..
 enable_port_forwards = "no"  #Define if port forwards should be enabled
-linked_clones = "no"  #Defines if nodes should be linked from master VM (yes | no)
+linked_clones = "true"  #Defines if nodes should be linked from master VM (yes | no)
 port_forwards = [
   {
     :node => "node1",
@@ -161,9 +161,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         end
       end
       if provision_nodes_proxy == "yes"
-		config.vm.provision :shell, :path => "Initial-Provision.sh",:args => "#{provision_nodes_proxy} #{Username} #{Password} #{ProxyServer} #{ProxyPort}" #runs initial shell script
+		      config.vm.provision :shell, :path => "Initial-Provision.sh",:args => "#{provision_nodes_proxy} #{Username} #{Password} #{ProxyServer} #{ProxyPort}" #runs initial shell script
       else 
-		config.vm.provision :shell, :path => "Initial-Provision.sh",:args => "#{provision_nodes_proxy}" #runs initial shell script
+		      config.vm.provision :shell, :path => "Initial-Provision.sh",:args => "#{provision_nodes_proxy}" #runs initial shell script
 	  end
     end
   end

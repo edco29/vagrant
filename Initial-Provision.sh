@@ -6,6 +6,7 @@ PASSWORD=$3
 PROXYSERVER=$4
 PROXYPORT=$5
 DATE=`date +%d-%m-%Y-%H:%M:%S`
+WHOAMI=`whoami`
 if [ -f /etc/os-release ]; then
     os_name="$(awk -F= '/^NAME/{ print $2 }' /etc/os-release | sed 's/"//g')"
     os_version_id="$(awk -F= '/^VERSION_ID/{ print $2}' /etc/os-release | sed 's/"//g')"
@@ -13,8 +14,8 @@ if [ -f /etc/os-release ]; then
     echo "Version:$os_version_id"
 fi
 
-echo "[${DATE}] ----> Start to supply Virtual Machinne <----"
-
+echo "[${DATE}] ----> Start to supply Virtual Machinne <---- "
+echo " ----> You are running as [${WHOAMI}]   <----"
 if [ "$1" == "yes" ]
 then
 	#Config_proxy
@@ -31,25 +32,23 @@ then
 	export http_proxy="http://${USERNAME}:${PASSWORD}@${PROXYSERVER}:${PROXYPORT}/"
 	export https_proxy="http://${USERNAME}:${PASSWORD}@${PROXYSERVER}:${PROXYPORT}/"
 fi
+#Remove apt/list 
+rm -rf /var/lib/apt/lists/*
+#name-resolution ( host -v x.com)
+echo """
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+nameserver 162.213.33.8
+nameserver 162.213.33.9
+""">>/etc/resolv.conf
+#
 apt-get update
-
-#Install-python3
-#cd /home/vagrant/ && wget --no-check-certificate https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz
-#tar -xvzf *tgz  && rm -rf *tgz && cd Py* && ./configure --enable-optimizations && make && make altinstall 
-#Install-pip
-apt install -y python3-pip
-#Install-Las-Version-Ansible (REMENBER-CONFIG-HOST)
-echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main" >> /etc/apt/sources.list
-if [ "$1" == "yes" ]
-then
-	apt-key adv  --keyserver-options http-proxy=http://${USERNAME}:${PASSWORD}@${PROXYSERVER}:${PROXYPORT}/ --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
-else
-	apt-key adv  --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
-fi
-apt-get update
+#Install Ansible
+apt-get install  -y software-properties-common
+apt-add-repository --yes  ppa:ansible/ansible
 apt-get install -y ansible
-#Install-Java1.7-Maven-------<CHANGE-M2-LOCAL-REPOSITORY> --->If-use-Spring-Framework-Upgrade-JAVA
-apt install -y maven
+#Default java_version :1.7
+apt-get install -y maven
 #Installgit
 apt-get install -y git
 #Install-Docker
@@ -57,7 +56,7 @@ apt-get -y install docker.io
 ln -sf /usr/bin/docker.io /usr/local/bin/docker
 sed -i '$acomplete -F _docker docker' /etc/bash_completion.d/docker
 update-rc.d docker defaults
-sudo usermod -a -G docker vagrant
+usermod -a -G docker vagrant
 service docker status
 #Config-Download-Docker-Images
 if [ "$1" == "yes" ]
@@ -69,5 +68,6 @@ fi
 #Test
 docker pull alpine
 docker images
-#End
+#End-Test
+#
 echo " Finish to supply Virtual Machinne "
