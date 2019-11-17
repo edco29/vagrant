@@ -1,12 +1,13 @@
 #!/bin/bash
 set -e
-PROXY=$1
-USERNAME=$2
-PASSWORD=$3
-PROXYSERVER=$4
-PROXYPORT=$5
-DATE=`date +%d-%m-%Y-%H:%M:%S`
-WHOAMI=`whoami`
+Proxy=$1
+Username=$2
+Password=$3
+ProxyServer=$4
+ProxyPort=$5
+Date=`date +%d-%m-%Y-%H:%M:%S`
+
+
 if [ -f /etc/os-release ]; then
     os_name="$(awk -F= '/^NAME/{ print $2 }' /etc/os-release | sed 's/"//g')"
     os_version_id="$(awk -F= '/^VERSION_ID/{ print $2}' /etc/os-release | sed 's/"//g')"
@@ -14,22 +15,24 @@ if [ -f /etc/os-release ]; then
     echo "Version:$os_version_id"
 fi
 
-echo "[${DATE}] ----> Start to supply Virtual Machinne <---- "
-if [ "$1" == "yes" ]
+echo "[${Date}] ----> Start to supply Virtual Machinne <---- "
+if [ "${Proxy}" == "yes" ]
 then
 	#Config_proxy
 	touch /etc/apt/apt.conf 
-	echo """Acquire::http::proxy \"http://${USERNAME}:${PASSWORD}@${PROXYSERVER}:${PROXYPORT}/\"; 
-			Acquire::ftp::proxy \"ftp://${USERNAME}:${PASSWORD}@${PROXYSERVER}:${PROXYPORT}/\"; 
-			Acquire::https::proxy \"https://${USERNAME}:${PASSWORD}@${PROXYSERVER}:${PROXYPORT}/\"; 
+	echo """Acquire::http::proxy \"http://${Username}:${Password}@${ProxyServer}:${ProxyPort}/\"; 
+			Acquire::ftp::proxy \"ftp://${Username}:${Password}@${ProxyServer}:${ProxyPort}/\"; 
+			Acquire::https::proxy \"https://${Username}:${Password}@${ProxyServer}:${ProxyPort}/\"; 
 	"""> /etc/apt/apt.conf
-	echo """http_proxy=\"http://${USERNAME}:${PASSWORD}@${PROXYSERVER}:${PROXYPORT}/\" 
-	https_proxy=\"http://${USERNAME}:${PASSWORD}@${PROXYSERVER}:${PROXYPORT}/\" """ >> /etc/environment
+
+	echo """http_proxy=\"http://${Username}:${Password}@${ProxyServer}:${ProxyPort}/\" 
+	https_proxy=\"http://${Username}:${Password}@${ProxyServer}:${ProxyPort}/\" """ >> /etc/environment
 	#Need to log out to setting config
 	source /etc/environment
+
 	#In-the-current-process
-	export http_proxy="http://${USERNAME}:${PASSWORD}@${PROXYSERVER}:${PROXYPORT}/"
-	export https_proxy="http://${USERNAME}:${PASSWORD}@${PROXYSERVER}:${PROXYPORT}/"
+	export http_proxy="http://${Username}:${Password}@${ProxyServer}:${ProxyPort}/"
+	export https_proxy="http://${Username}:${Password}@${ProxyServer}:${ProxyPort}/"
 fi
 #Remove apt/list 
 rm -rf /var/lib/apt/lists/*
@@ -40,7 +43,7 @@ nameserver 8.8.4.4
 nameserver 162.213.33.8
 nameserver 162.213.33.9
 """>>/etc/resolv.conf
-#
+#Use apt-get instead apt
 apt-get update
 #Install Ansible
 apt-get install  -y software-properties-common
@@ -58,15 +61,14 @@ update-rc.d docker defaults
 usermod -a -G docker vagrant
 service docker status
 #Config-Download-Docker-Images
-if [ "$1" == "yes" ]
+if [ "${Proxy}" == "yes" ]
 then
-	echo """export http_proxy=\"http://${USERNAME}:${PASSWORD}@${PROXYSERVER}:${PROXYPORT}/\"
-	export https_proxy=\"http://${USERNAME}:${PASSWORD}@${PROXYSERVER}:${PROXYPORT}/\" """ >> /etc/default/docker
+	echo """export http_proxy=\"http://${Username}:${Password}@${ProxyServer}:${ProxyPort}/\"
+	export https_proxy=\"http://${Username}:${Password}@${ProxyServer}:${ProxyPort}/\" """ >> /etc/default/docker
 	service docker restart
 fi	
 #Test
 docker pull alpine
 docker images
 #End-Test
-#
-echo " [${DATE}] ----> Finish to supply Virtual Machinne <---- "
+echo " [${Date}] ----> Finish to supply Virtual Machinne <---- "
