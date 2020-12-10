@@ -1,5 +1,5 @@
 # Vagrant
-This repo contain a Vagranfile to start a ubuntu Operating System in mode-server.
+This repo contain a Vagranfile to start a ubuntu Operating System in server-mode.
 # Use ( example vagrant-box : ubuntu/trusty64 )
 - Download VirtualBox for your OS (https://www.virtualbox.org/wiki/Downloads)
 - Download Vagrant for your OS (https://www.vagrantup.com/downloads.html )
